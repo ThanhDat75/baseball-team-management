@@ -3,12 +3,14 @@ package com.example.baseballteammanagement.Entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "memberposition")
 @Getter
 @Setter
+@NoArgsConstructor
 public class MemberPosition {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MemberPositionRepo extends JpaRepository<MemberPosition, Integer> {
+    String deleteAllByMemberID(int memberID);
+    void deleteMemberPositionsByMemberID(int memberID);
+
 }
