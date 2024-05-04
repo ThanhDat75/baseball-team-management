@@ -17,6 +17,7 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int memberID;
 
+
     @Column(name = "membername",nullable = false)
     private String memberName;
 
