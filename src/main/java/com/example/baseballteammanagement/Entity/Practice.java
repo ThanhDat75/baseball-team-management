@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Set;
 
 @Entity
@@ -19,7 +21,13 @@ public class Practice {
     private int practiceID;
 
     @Column(name = "practicedate")
-    private LocalDate practiceDate;
+    private LocalDateTime practiceDate;
+
+    @Column(name = "endTime")
+    private LocalDateTime endTime;
+
+    @Column(name = "content")
+    private String content;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "practice")
     @JsonManagedReference(value = "practice-practiceAttendence")

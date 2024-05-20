@@ -40,7 +40,7 @@ public class Member {
     private String jerseySize;
 
     @Column(name = "memberstatus", nullable = false)
-    private String memberStatus = "Activity";
+    private String memberStatus = "ACTIVITY";
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     @JsonManagedReference(value = "member-memberPosition")

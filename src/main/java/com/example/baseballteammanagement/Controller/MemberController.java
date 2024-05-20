@@ -6,8 +6,10 @@ import com.example.baseballteammanagement.Service.IMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import com.google.gson.Gson;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "api/v1/member")
@@ -38,5 +40,30 @@ public class MemberController {
     @DeleteMapping(value = "/deleteMember")
     public Member deleteMember(@RequestParam int memberID) {
         return iMemberService.deleteMember(memberID);
+    }
+
+    @PutMapping(value = "/setPositionOfMember", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String setPositionOfMember(@RequestParam int memberID,@RequestBody ObjectCollection objectCollection) {
+        return iMemberService.setPositionOfMember(memberID, objectCollection.getPositionIDSet());
+    }
+
+    @GetMapping(value = "/findAllMemberByPosition")
+    public Set<Member> findAllMemberByPostition(@RequestBody ObjectCollection objectCollection) {
+        return iMemberService.findAllMemberByPosition(objectCollection.getPositionIDSet());
+    }
+
+    @GetMapping(value = "/findAllByName")
+    public Set<Member> findAllMemberByName(@RequestParam String name) {
+        return iMemberService.findAllMemberByName(name);
+    }
+
+    @GetMapping(value = "/findAllByNickName")
+    public Set<Member> findAllMemberByNickName(@RequestParam String nickName) {
+        return iMemberService.findAllMemberByNickName(nickName);
+    }
+
+    @GetMapping(value = "/findAllByMemberStatus")
+    public Set<Member> findAllMemberByMemberStatus(@RequestParam String status) {
+        return iMemberService.findAllMemberByStatus(status);
     }
 }
