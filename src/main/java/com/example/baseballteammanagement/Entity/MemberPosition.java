@@ -37,4 +37,5 @@ public class MemberPosition {
         this.memberID = memberID;
         this.positionID = positionID;
     }
+
 }

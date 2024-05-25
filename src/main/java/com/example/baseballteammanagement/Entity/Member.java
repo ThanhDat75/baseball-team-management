@@ -40,13 +40,13 @@ public class Member {
     private String jerseySize;
 
     @Column(name = "memberstatus", nullable = false)
-    private String memberStatus = "Activity";
+    private String memberStatus = "ACTIVITY";
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     @JsonManagedReference(value = "member-memberPosition")
     private Set<MemberPosition> memberPositionSet;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
-    @JsonManagedReference(value = "member-practiceAttendence")
-    private Set<PracticeAttendence> practiceAttendenceSet;
+    @JsonManagedReference(value = "member-practiceAttendance")
+    private Set<PracticeAttendance> practiceAttendanceSet;
 }

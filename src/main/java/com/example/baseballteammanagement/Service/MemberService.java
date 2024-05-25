@@ -13,8 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -72,6 +74,48 @@ public class MemberService implements IMemberService{
         memberPositionRepo.deleteMemberPositionsByMemberID(memberID);
         memberRepo.delete(member.get());
         return member.get();
+    }
+
+    @Override
+    public String setPositionOfMember(int memberID, Set<Integer> positionIDSet) {
+        Optional<Member> member = memberRepo.findById(memberID);
+        if (member.isEmpty()) {
+            return "Member doesn't exist!";
+        } else if (positionIDSet.isEmpty()) {
+            return "At least one position!";
+        }
+
+        for (Integer positionID: positionIDSet) {
+            MemberPosition memberPosition = new MemberPosition(memberID, positionID);
+            memberPositionRepo.save(memberPosition);
+            member.get().getMemberPositionSet().add(memberPosition);
+        }
+        memberRepo.save(member.get());
+        return "Success!";
+    }
+
+    @Override
+    public Set<Member> findAllMemberByPosition(Set<Integer> positionIDSet) {
+        Set<Member> memberByPositionID = new HashSet<>();
+        for (Integer positionID: positionIDSet) {
+            memberByPositionID.addAll(memberRepo.findAllByPositionID(positionID));
+        }
+        return memberByPositionID;
+    }
+
+    @Override
+    public Set<Member> findAllMemberByName(String name) {
+        return memberRepo.findAllByMemberNameContaining(name);
+    }
+
+    @Override
+    public Set<Member> findAllMemberByNickName(String nickName) {
+        return memberRepo.findAllByNickNameContaining(nickName);
+    }
+
+    @Override
+    public Set<Member> findAllMemberByStatus(String status) {
+        return memberRepo.findAllByMemberStatus(status);
     }
 
     //    @Override
