@@ -10,7 +10,7 @@ public enum PositionEnums {
     CENTER_FIELDER("CF"), RIGHT_FILEDER("RF"),
     DESIGNATED_HITTER("DH"), OUT_FIELDER("OF");
 
-    private String code;
+    private final String code;
 
     private PositionEnums(String code) {
         this.code = code;

@@ -6,7 +6,6 @@ import com.example.baseballteammanagement.Service.IMemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import com.google.gson.Gson;
 
 import java.util.List;
 import java.util.Set;
@@ -48,7 +47,7 @@ public class MemberController {
     }
 
     @GetMapping(value = "/findAllMemberByPosition")
-    public Set<Member> findAllMemberByPostition(@RequestBody ObjectCollection objectCollection) {
+    public Set<Member> findAllMemberByPosition(@RequestBody ObjectCollection objectCollection) {
         return iMemberService.findAllMemberByPosition(objectCollection.getPositionIDSet());
     }
 

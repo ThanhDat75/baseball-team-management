@@ -5,9 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Set;
 
 @Entity
@@ -29,7 +27,13 @@ public class Practice {
     @Column(name = "content")
     private String content;
 
+    @Column(name = "totalactive")
+    private Integer totalActive;
+
+    @Column(name = "totalattend")
+    private Integer totalAttend;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "practice")
-    @JsonManagedReference(value = "practice-practiceAttendence")
-    private Set<PracticeAttendence> practiceAttendenceSet;
+    @JsonManagedReference(value = "practice-practiceAttendance")
+    private Set<PracticeAttendance> practiceAttendanceSet;
 }
