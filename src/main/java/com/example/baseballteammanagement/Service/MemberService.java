@@ -73,7 +73,8 @@ public class MemberService implements IMemberService{
         }
         memberPositionRepo.deleteMemberPositionsByMemberID(memberID);
         memberRepo.delete(member.get());
-        return member.get();
+        return null;
+        // return member.get();
     }
 
     @Override
