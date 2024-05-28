@@ -51,7 +51,9 @@ public class MemberService implements IMemberService{
         if (member == null) {
             return null;
         }
-        member = mapper.map(memberDTOv2, Member.class);
+        // member = mapper.map(memberDTOv2, Member.class);
+        // TODO: set all attributes here
+        member.setJerseyNumber(memberDTOv2.getJerseyNumber());
         try {
             memberRepo.save(member);
         } catch (Exception e) {
@@ -73,7 +75,8 @@ public class MemberService implements IMemberService{
         }
         memberPositionRepo.deleteMemberPositionsByMemberID(memberID);
         memberRepo.delete(member.get());
-        return member.get();
+        return null;
+        // return member.get();
     }
 
     @Override

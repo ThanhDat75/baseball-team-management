@@ -69,6 +69,7 @@ public class PracticeService implements IPracticeService{
         if (practiceOptional.isEmpty()) {
             return null;
         }
+        practiceAttendanceRepo.deleteAll(practiceOptional.get().getPracticeAttendanceSet());
         practiceRepo.delete(practiceOptional.get());
         return "Done!";
     }
