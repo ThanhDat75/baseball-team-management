@@ -42,8 +42,10 @@ public class PracticeService implements IPracticeService{
         for (Member member :
                 activeMember) {
             practiceAttendanceList.add(new PracticeAttendance(member.getMemberID(), practice.getPracticeID(), false));
+            practice.setTotalActive(practice.getTotalActive()+1);
         }
         practiceAttendanceRepo.saveAll(practiceAttendanceList);
+        practiceRepo.save(practice);
         return "Done!\n" + "Start time: " + practice.getPracticeDate()
                 + "\nEnd time: " + practice.getEndTime();
     }
@@ -52,7 +54,7 @@ public class PracticeService implements IPracticeService{
     public String updatePractice(int practiceSessionID, Practice practice) {
         Optional<Practice> practiceOptional = practiceRepo.findById(practiceSessionID);
         if (practiceOptional.isEmpty()) {
-            return "id khong ton tai!";
+            return "Practice ID doesn't exist!";
         }
         practiceOptional.get().setPracticeDate(practice.getPracticeDate());
         practiceOptional.get().setEndTime(practice.getEndTime());

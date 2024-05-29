@@ -1,9 +1,12 @@
 package com.example.baseballteammanagement.Controller;
 
 import com.example.baseballteammanagement.DTO.MemberDTOv2;
+import com.example.baseballteammanagement.DTO.ObjectCollection;
 import com.example.baseballteammanagement.Entity.Member;
 import com.example.baseballteammanagement.Service.IMemberService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,8 +30,15 @@ public class MemberController {
     }
 
     @PutMapping(value = "/updateMember", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Member updateMember(@RequestBody MemberDTOv2 memberDTOv2, @RequestParam int memberID) {
-        return iMemberService.updateMember(memberID, memberDTOv2);
+    public String updateMember(@RequestBody MemberDTOv2 memberDTOv2, @RequestParam int memberID) {
+        try {
+            iMemberService.updateMember(memberID, memberDTOv2);
+            return "Update successfully!";
+        } catch (EntityNotFoundException e) {
+            return "Update failed! Id is not exist!";
+        } catch (DataIntegrityViolationException e) {
+            return "Update failed! Jersey number is already exist!";
+        }
     }
 
     @GetMapping(value = "/getAllMember")
@@ -37,8 +47,13 @@ public class MemberController {
     }
 
     @DeleteMapping(value = "/deleteMember")
-    public Member deleteMember(@RequestParam int memberID) {
-        return iMemberService.deleteMember(memberID);
+    public String deleteMember(@RequestParam int memberID) {
+        try {
+            iMemberService.deleteMember(memberID);
+            return "Deleted";
+        } catch (EntityNotFoundException e) {
+            return "Member ID doesn't exist!";
+        }
     }
 
     @PutMapping(value = "/setPositionOfMember", produces = MediaType.APPLICATION_JSON_VALUE)

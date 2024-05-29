@@ -3,16 +3,15 @@ package com.example.baseballteammanagement.Service;
 import com.example.baseballteammanagement.DTO.MemberDTOv2;
 import com.example.baseballteammanagement.Entity.Member;
 import com.example.baseballteammanagement.Entity.MemberPosition;
-import com.example.baseballteammanagement.Entity.Position;
 import com.example.baseballteammanagement.Repository.MemberPositionRepo;
 import com.example.baseballteammanagement.Repository.MemberRepo;
-import com.example.baseballteammanagement.Repository.PositionRepo;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -23,8 +22,6 @@ import java.util.Set;
 public class MemberService implements IMemberService{
     @Autowired
     private ModelMapper mapper;
-    @Autowired
-    private PositionRepo positionRepo;
     @Autowired
     private MemberRepo memberRepo;
     @Autowired
@@ -42,24 +39,19 @@ public class MemberService implements IMemberService{
     }
 
     @Override
-    public Member updateMember(int memberID, MemberDTOv2 memberDTOv2) {
-//        Optional<Member> member = memberRepo.findById(memberID);
-//        if (member.isEmpty()) {
-//            return null;
-//        }
-        Member member = memberRepo.findByMemberID(memberID);
-        if (member == null) {
-            return null;
-        }
+    public Member updateMember(int memberID, MemberDTOv2 memberDTOv2) throws EntityNotFoundException, DataIntegrityViolationException {
+        Member memberToUpdate = memberRepo.getReferenceById(memberID);
         // member = mapper.map(memberDTOv2, Member.class);
-        // TODO: set all attributes here
-        member.setJerseyNumber(memberDTOv2.getJerseyNumber());
-        try {
-            memberRepo.save(member);
-        } catch (Exception e) {
-            return null;
-        }
-        return member;
+
+        memberToUpdate.setMemberName(memberDTOv2.getMemberName());
+        memberToUpdate.setDateOfBirth(memberDTOv2.getDateOfBirth());
+        memberToUpdate.setPhoneNumber(memberDTOv2.getPhoneNumber());
+        memberToUpdate.setJerseyNumber(memberDTOv2.getJerseyNumber());
+        memberToUpdate.setNickName(memberDTOv2.getNickName());
+        memberToUpdate.setHandedness(memberDTOv2.getHandedness());
+
+        memberRepo.save(memberToUpdate);
+        return memberToUpdate;
     }
 
     @Override
@@ -68,13 +60,10 @@ public class MemberService implements IMemberService{
     }
 
     @Override
-    public Member deleteMember(int memberID) {
-        Optional<Member> member = memberRepo.findById(memberID);
-        if (member.isEmpty()) {
-            return null;
-        }
+    public Member deleteMember(int memberID) throws EntityNotFoundException {
+        Member member = memberRepo.getReferenceById(memberID);
         memberPositionRepo.deleteMemberPositionsByMemberID(memberID);
-        memberRepo.delete(member.get());
+        memberRepo.delete(member);
         return null;
         // return member.get();
     }

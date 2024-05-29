@@ -10,7 +10,6 @@ import java.util.Set;
 
 @Repository
 public interface MemberRepo extends JpaRepository<Member, Integer> {
-    Member findByMemberID(int memberID);
     @Query(value = "SELECT M.* FROM Member AS M " +
             "JOIN MemberPosition AS MP ON M.memberID = MP.memberID " +
             "JOIN Position AS P ON MP.positionID = P.positionID WHERE P.positionID = :positionID", nativeQuery = true)

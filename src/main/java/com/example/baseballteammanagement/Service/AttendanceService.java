@@ -1,26 +1,24 @@
 package com.example.baseballteammanagement.Service;
 
 import com.example.baseballteammanagement.DTO.AttendDTO;
+import com.example.baseballteammanagement.DTO.MemberAttendDTO;
 import com.example.baseballteammanagement.Entity.Member;
-import com.example.baseballteammanagement.Entity.Practice;
 import com.example.baseballteammanagement.Entity.PracticeAttendance;
 import com.example.baseballteammanagement.Repository.MemberRepo;
 import com.example.baseballteammanagement.Repository.PracticeAttendanceRepo;
-import com.example.baseballteammanagement.Repository.PracticeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Transactional
 public class AttendanceService implements IAttendanceService {
     @Autowired
     private PracticeAttendanceRepo practiceAttendanceRepo;
+    @Autowired
+    private MemberRepo memberRepo;
     @Override
     public String practiceAttend(Set<AttendDTO> attendDTOSet) {
         for (AttendDTO attendDTO :
@@ -29,12 +27,27 @@ public class AttendanceService implements IAttendanceService {
                     practiceAttendanceRepo.findByMemberIDAndPracticeID(attendDTO.getMemberID(),
                             attendDTO.getPracticeID());
             if (practiceAttendanceOptional.isEmpty()) {
-                return "id buổi tập hoặc id thành viên không tồn tại";
+                return "Practice ID or member ID doesn't exist!";
             }
             practiceAttendanceOptional.get().setAttend(attendDTO.getIsAttend() == 1);
             practiceAttendanceRepo.save(practiceAttendanceOptional.get());
         }
-        return "thành công";
+        return "Done!";
+    }
+
+    @Override
+    public Set<MemberAttendDTO> allMemberMissedMoreThanNumberOfSessions(int numberOfSessions) {
+        Set<MemberAttendDTO> memberAttendSet = new HashSet<>();
+        for (Member member: memberRepo.findAllByMemberStatus("ACTIVITY")) {
+            Integer numberOfSessionsNotAttend = practiceAttendanceRepo.countByAttendIsFalseAndMemberIDIs(member.getMemberID());
+            if (numberOfSessionsNotAttend == null) {
+                continue;
+            }
+            if (numberOfSessionsNotAttend >= numberOfSessions) {
+                memberAttendSet.add(new MemberAttendDTO(member.getMemberID(), member.getMemberName(), numberOfSessionsNotAttend));
+            }
+        }
+        return memberAttendSet;
     }
 }
 

@@ -1,6 +1,5 @@
-package com.example.baseballteammanagement.Controller;
+package com.example.baseballteammanagement.DTO;
 
-import com.example.baseballteammanagement.DTO.AttendDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
