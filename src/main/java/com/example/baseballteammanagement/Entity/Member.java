@@ -46,7 +46,7 @@ public class Member {
     @JsonManagedReference(value = "member-memberPosition")
     private Set<MemberPosition> memberPositionSet;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
-    @JsonManagedReference(value = "member-practiceAttendance")
-    private Set<PracticeAttendance> practiceAttendanceSet;
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
+//    @JsonManagedReference(value = "member-practiceAttendance")
+//    private Set<PracticeAttendance> practiceAttendanceSet;
 }

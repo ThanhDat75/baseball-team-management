@@ -2,7 +2,6 @@ package com.example.baseballteammanagement.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,10 +19,10 @@ public class PracticeAttendance {
     @Column(name = "memberid")
     private int memberID;
 
-    @ManyToOne
-    @JoinColumn(name = "memberid", insertable = false, updatable = false)
-    @JsonBackReference(value = "member-practiceAttendance")
-    private Member member;
+//    @ManyToOne
+//    @JoinColumn(name = "memberid", insertable = false, updatable = false)
+//    @JsonBackReference(value = "member-practiceAttendance")
+//    private Member member;
 
     @Column(name = "practiceid")
     private int practiceID;

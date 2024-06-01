@@ -12,5 +12,6 @@ import lombok.Setter;
 public class AttendDTO {
     private int practiceID;
     private int memberID;
+    private String memberName;
     private int isAttend;
 }
