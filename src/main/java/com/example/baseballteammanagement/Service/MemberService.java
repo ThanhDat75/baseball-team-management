@@ -76,6 +76,7 @@ public class MemberService implements IMemberService{
         } else if (positionIDSet.isEmpty()) {
             return "At least one position!";
         }
+        memberPositionRepo.deleteMemberPositionsByMemberID(memberID);
 
         for (Integer positionID: positionIDSet) {
             MemberPosition memberPosition = new MemberPosition(memberID, positionID);
