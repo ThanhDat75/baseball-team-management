@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -24,7 +23,7 @@ public class MemberDTO {
     private String handedness;
     private Set<PositionEnums> positionEnumsSet;
 
-    public void memberToDTO(@NotNull Member member) {
+    public void memberToDTO(Member member) {
         this.memberName = member.getMemberName();
         this.dateOfBirth = member.getDateOfBirth();
         this.phoneNumber = member.getPhoneNumber();
