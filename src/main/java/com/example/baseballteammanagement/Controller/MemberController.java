@@ -50,8 +50,8 @@ public class MemberController {
     @DeleteMapping(value = "/deleteMember")
     public ResponseEntity<?> deleteMember(@RequestParam int memberID) {
         try {
-            Member member = memberService.deleteMember(memberID);
-            return ResponseEntity.ok(member.getMemberName() + " has been deleted!");
+            memberService.deleteMember(memberID);
+            return ResponseEntity.ok("Delete successfully!");
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Member ID doesn't exist!");
         }
