@@ -28,13 +28,9 @@ public class MemberService implements IMemberService{
     private MemberPositionRepo memberPositionRepo;
 
     @Override
-    public Member newMember(MemberDTOv2 memberDTOv2) {
+    public Member newMember(MemberDTOv2 memberDTOv2) throws DataIntegrityViolationException {
         Member member = mapper.map(memberDTOv2, Member.class);
-        try {
-            memberRepo.save(member);
-        } catch (Exception e) {
-            return null;
-        }
+        memberRepo.save(member);
         return member;
     }
 

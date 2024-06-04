@@ -16,8 +16,8 @@ public class AttendanceController {
     private IAttendanceService iAttendanceService;
 
     @PutMapping(value = "/practiceAttend", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String practiceAttend(@RequestBody ObjectCollection objectCollection) {
-        return iAttendanceService.practiceAttend(objectCollection.getAttendDTOSet());
+    public String practiceAttend(@RequestBody ObjectCollection objectCollection, @RequestParam int practiceID) {
+        return iAttendanceService.practiceAttend(objectCollection.getAttendDTOSet(), practiceID);
     }
 
     @PutMapping(value = "/allMemberMissedMoreThanNumberOfSessions", produces = MediaType.APPLICATION_JSON_VALUE)

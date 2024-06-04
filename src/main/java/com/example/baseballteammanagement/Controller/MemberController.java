@@ -27,8 +27,12 @@ public class MemberController {
 //    }
 
     @PostMapping(value = "/newMember", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Member newMember(@RequestBody MemberDTOv2 memberDTOv2) {
-        return memberService.newMember(memberDTOv2);
+    public ResponseEntity<?> newMember(@RequestBody MemberDTOv2 memberDTOv2) {
+        try {
+            return ResponseEntity.ok(memberService.newMember(memberDTOv2));
+        } catch (DataIntegrityViolationException d) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Add new member failed! Jersey number is already exist!");
+        }
     }
 
     @PutMapping(value = "/updateMember", produces = MediaType.APPLICATION_JSON_VALUE)

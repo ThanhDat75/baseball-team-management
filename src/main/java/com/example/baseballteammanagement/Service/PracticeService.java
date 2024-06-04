@@ -96,10 +96,11 @@ public class PracticeService implements IPracticeService{
         Practice practice = practiceRepo.getReferenceById(practiceID);
         PracticeDTO practiceDTO = new PracticeDTO(practice.getPracticeDate(), practice.getEndTime(),
                 practice.getContent(), practice.getTotalActive(), practice.getTotalAttend(), new HashSet<>());
+
         for (PracticeAttendance pracAttend :
                 practice.getPracticeAttendanceSet()) {
             AttendDTO attendDTO = new AttendDTO();
-            attendDTO.setPracticeID(practiceID);
+            // attendDTO.setPracticeID(practiceID);
             attendDTO.setMemberID(pracAttend.getMemberID());
             try {
                 attendDTO.setMemberName(memberRepo.getReferenceById(attendDTO.getMemberID()).getMemberName());

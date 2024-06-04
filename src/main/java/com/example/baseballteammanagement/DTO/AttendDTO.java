@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AttendDTO {
-    private int practiceID;
+    //private int practiceID;
     private int memberID;
     private String memberName;
     private int isAttend;

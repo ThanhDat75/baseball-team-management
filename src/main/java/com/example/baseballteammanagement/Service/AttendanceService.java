@@ -3,9 +3,11 @@ package com.example.baseballteammanagement.Service;
 import com.example.baseballteammanagement.DTO.AttendDTO;
 import com.example.baseballteammanagement.DTO.MemberAttendDTO;
 import com.example.baseballteammanagement.Entity.Member;
+import com.example.baseballteammanagement.Entity.Practice;
 import com.example.baseballteammanagement.Entity.PracticeAttendance;
 import com.example.baseballteammanagement.Repository.MemberRepo;
 import com.example.baseballteammanagement.Repository.PracticeAttendanceRepo;
+import com.example.baseballteammanagement.Repository.PracticeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,19 +21,30 @@ public class AttendanceService implements IAttendanceService {
     private PracticeAttendanceRepo practiceAttendanceRepo;
     @Autowired
     private MemberRepo memberRepo;
+    @Autowired
+    private PracticeRepo practiceRepo;
     @Override
-    public String practiceAttend(Set<AttendDTO> attendDTOSet) {
+    public String practiceAttend(Set<AttendDTO> attendDTOSet, int practiceID) {
+        int attendCount = 0;
         for (AttendDTO attendDTO :
                 attendDTOSet) {
             Optional<PracticeAttendance> practiceAttendanceOptional =
                     practiceAttendanceRepo.findByMemberIDAndPracticeID(attendDTO.getMemberID(),
-                            attendDTO.getPracticeID());
+                            practiceID);
             if (practiceAttendanceOptional.isEmpty()) {
                 return "Practice ID or member ID doesn't exist!";
             }
-            practiceAttendanceOptional.get().setAttend(attendDTO.getIsAttend() == 1);
+            if (attendDTO.getIsAttend() == 1) {
+                practiceAttendanceOptional.get().setAttend(true);
+                attendCount++;
+            } else {
+                practiceAttendanceOptional.get().setAttend(false);
+            }
             practiceAttendanceRepo.save(practiceAttendanceOptional.get());
         }
+        Practice practice = practiceRepo.getReferenceById(practiceID);
+        practice.setTotalAttend(attendCount);
+        practiceRepo.save(practice);
         return "Done!";
     }
 

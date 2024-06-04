@@ -6,6 +6,6 @@ import com.example.baseballteammanagement.DTO.MemberAttendDTO;
 import java.util.Set;
 
 public interface IAttendanceService {
-    String practiceAttend(Set<AttendDTO> attendDTOSet);
+    String practiceAttend(Set<AttendDTO> attendDTOSet, int practiceID);
     Set<MemberAttendDTO> allMemberMissedMoreThanNumberOfSessions(int numberOfSessions);
 }
