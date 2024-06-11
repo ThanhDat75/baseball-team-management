@@ -51,7 +51,7 @@ public class AttendanceService implements IAttendanceService {
     @Override
     public Set<MemberAttendDTO> allMemberMissedMoreThanNumberOfSessions(int numberOfSessions) {
         Set<MemberAttendDTO> memberAttendSet = new HashSet<>();
-        for (Member member: memberRepo.findAllByMemberStatus("ACTIVITY")) {
+        for (Member member: memberRepo.findAllByMemberStatus("ACTIVITY", null)) {
             Integer numberOfSessionsNotAttend = practiceAttendanceRepo.countByAttendIsFalseAndMemberIDIs(member.getMemberID());
             if (numberOfSessionsNotAttend == null) {
                 continue;

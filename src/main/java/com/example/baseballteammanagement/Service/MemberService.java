@@ -9,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,7 +53,7 @@ public class MemberService implements IMemberService{
 
     @Override
     public List<Member> getAllMember() {
-        return memberRepo.findAll();
+        return memberRepo.findAll(Sort.by(Sort.Direction.ASC, "memberID"));
     }
 
     @Override
@@ -94,17 +95,17 @@ public class MemberService implements IMemberService{
 
     @Override
     public Set<Member> findAllMemberByName(String name) {
-        return memberRepo.findAllByMemberNameContaining(name);
+        return memberRepo.findAllByMemberNameContaining(name, Sort.by(Sort.Direction.ASC, "memberID"));
     }
 
     @Override
     public Set<Member> findAllMemberByNickName(String nickName) {
-        return memberRepo.findAllByNickNameContaining(nickName);
+        return memberRepo.findAllByNickNameContaining(nickName, Sort.by(Sort.Direction.ASC, "memberID"));
     }
 
     @Override
     public Set<Member> findAllMemberByStatus(String status) {
-        return memberRepo.findAllByMemberStatus(status);
+        return memberRepo.findAllByMemberStatus(status, Sort.by(Sort.Direction.ASC, "memberID"));
     }
 
     //    @Override

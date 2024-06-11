@@ -10,6 +10,7 @@ import com.example.baseballteammanagement.Repository.PracticeAttendanceRepo;
 import com.example.baseballteammanagement.Repository.PracticeRepo;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +30,7 @@ public class PracticeService implements IPracticeService{
 
     @Override
     public List<Practice> getAllPractice() {
-        return practiceRepo.findAll();
+        return practiceRepo.findAll(Sort.by(Sort.Direction.DESC, "practiceDate"));
     }
 
     @Override
@@ -44,7 +45,7 @@ public class PracticeService implements IPracticeService{
         practice.setTotalAttend(0);
         practiceRepo.save(practice);
 
-        Set<Member> activeMember = memberRepo.findAllByMemberStatus("ACTIVITY");
+        Set<Member> activeMember = memberRepo.findAllByMemberStatus("ACTIVITY", null);
         List<PracticeAttendance> practiceAttendanceList = new ArrayList<>();
         for (Member member :
                 activeMember) {
@@ -85,10 +86,11 @@ public class PracticeService implements IPracticeService{
 
     @Override
     public Set<Practice> getPracticeSessionBetweenTwoDate(LocalDate date1, LocalDate date2) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "practiceDate");
         if (date1.isAfter(date2)) {
-            return practiceRepo.getPracticeByPracticeDateBetween(date2.atStartOfDay(), date1.plusDays(1).atStartOfDay());
+            return practiceRepo.getPracticeByPracticeDateBetween(date2.atStartOfDay(), date1.plusDays(1).atStartOfDay(), sort);
         }
-        return practiceRepo.getPracticeByPracticeDateBetween(date1.atStartOfDay(), date2.plusDays(1).atStartOfDay());
+        return practiceRepo.getPracticeByPracticeDateBetween(date1.atStartOfDay(), date2.plusDays(1).atStartOfDay(), sort);
     }
 
     @Override
