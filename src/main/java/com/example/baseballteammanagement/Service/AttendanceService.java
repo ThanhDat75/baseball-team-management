@@ -57,7 +57,7 @@ public class AttendanceService implements IAttendanceService {
                 continue;
             }
             if (numberOfSessionsNotAttend >= numberOfSessions) {
-                memberAttendSet.add(new MemberAttendDTO(member.getMemberID(), member.getMemberName(), numberOfSessionsNotAttend));
+                memberAttendSet.add(new MemberAttendDTO(member, numberOfSessionsNotAttend));
             }
         }
         return memberAttendSet;
