@@ -13,7 +13,7 @@ public interface PracticeAttendanceRepo extends JpaRepository<PracticeAttendance
     Optional<PracticeAttendance> findByMemberIDAndPracticeID(int memberID, int practiceID);
 
     @Query(value = "SELECT COUNT(PA.isAttend) " +
-            "FROM PracticeAttendance AS PA " +
+            "FROM practiceattendance AS PA " +
             "WHERE PA.isAttend = false AND PA.memberID = :memberID GROUP BY PA.memberID", nativeQuery = true)
     Integer countByAttendIsFalseAndMemberIDIs(@Param("memberID") Integer memberID);
 }
